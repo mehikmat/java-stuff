@@ -1,0 +1,8 @@
+package xample.generated;
+
+option optimize_for = SPEED;
+
+message StudentInfo{
+ optional string id=1;
+ optional string name=2;
+}

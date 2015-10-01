@@ -1,0 +1,6 @@
+// Give the jar classes full permissions
+grant /*signedby mydomain*/ codeBase "file:///home/hdhamee/contributions/java-stuffs/shiroexampleapp/target/shiroexample-1.jar" {
+permission java.security.AllPermission;
+};
+// Use following parameter while running jar or add above lies to $JAVA_HOME/jar/lib/security/java.security
+//-Djava.security.policy=../resources/security.policy

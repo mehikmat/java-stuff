@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>jaxws.demo</groupId>
+    <artifactId>jaxws-demo</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+    <name>jaxws-demo</name>
+
+    <!--Add plugin repository information for the jaxws-maven-plugin to the pom.xml file, as follows:  -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <url>http://download.java.net/maven/2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <repositories>
+        <!--Add the following repository information for downloading JAX-WS JARs:  -->
+            <repository>
+                <id>maven-repository.dev.java.net</id>
+                <name>Java.net Repository for Maven 1</name>
+                <url>http://download.java.net/maven/1/</url>
+                <layout>legacy</layout>
+            </repository>
+            <repository>
+                <id>maven2-repository.dev.java.net</id>
+                <name>Java.net Repository for Maven 2</name>
+                <url>http://download.java.net/maven/2/</url>
+            </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.xml</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <version>2.0EA3</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>
+                </configuration>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <!-- fully qualified class name goes here -->
+                            <sei>jaxws.demo.ServiceInterfaceImpl</sei>
+                            <sourceDestDir>src/main/java</sourceDestDir>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                        </configuration>
+                    </execution>
+                    <!--for client app-->
+                    <!--<execution>
+                                <goals>
+                                    <goal>wsimport</goal>
+                                </goals>
+                                <configuration>
+                                    <wsdlUrls>
+                                        <wsdlUrl>
+                                            http://localhost:8080/message/MessageWS?wsdl
+                                        </wsdlUrl>
+                                    </wsdlUrls>
+                                    <packageName>com.example.maven.jaxws.messageclient
+                                    </packageName>
+                                </configuration>
+                            </execution>-->
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

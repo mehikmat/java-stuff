@@ -1,0 +1,1 @@
+REFERENCES:https://jersey.java.net/documentation/latest/getting-started.html

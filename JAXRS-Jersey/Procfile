@@ -1,0 +1,3 @@
+#web: java -cp target/classes:target/dependency/* ${package}.heroku.Main
+web: mvn clean package; mvn tomcat:run
+

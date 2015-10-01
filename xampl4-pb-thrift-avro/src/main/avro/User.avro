@@ -1,0 +1,10 @@
+{
+ "namespace": "xample.generated",
+ "type": "record",
+ "name": "User",
+ "fields": [
+     {"name": "id", "type": "string"},
+     {"name": "name",  "type": "string"}
+
+ ]
+}
