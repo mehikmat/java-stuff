@@ -9,16 +9,16 @@ import java.util.Properties;
 
 public class Connection {
     private static Cluster cluster;
-    private static Properties properties;
+    private static Properties clusterConfig;
     private static final String configFileName = "cluster_config.properties";
 
     public Connection() {
-        properties = new Properties();
+        clusterConfig = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFileName);
         if (inputStream != null){
             try {
-                properties.load(inputStream);
-                System.out.println("ClusterConfig: " + properties.toString());
+                clusterConfig.load(inputStream);
+                System.out.println("ClusterConfig: " + clusterConfig.toString());
             } catch (IOException e) {
                 throw  new RuntimeException(e.getLocalizedMessage());
             }
@@ -28,10 +28,10 @@ public class Connection {
     public Session getConnection() {
         // Connection to the cluster and keyspace "demo"
         cluster = Cluster.builder()
-                .addContactPoint(properties.getProperty("cluster.url"))
-                .withPort(Integer.parseInt(properties.getProperty("cluster.port")))
-                .withCredentials(properties.getProperty("user.name"),properties.getProperty("user.password"))
+                .addContactPoint(clusterConfig.getProperty("cluster.url"))
+                .withPort(Integer.parseInt(clusterConfig.getProperty("cluster.port")))
+                .withCredentials(clusterConfig.getProperty("user.name"), clusterConfig.getProperty("user.password"))
                 .build();
-        return cluster.connect(properties.getProperty("keyspace.name"));
+        return cluster.connect(clusterConfig.getProperty("keyspace.name"));
     }
 }
