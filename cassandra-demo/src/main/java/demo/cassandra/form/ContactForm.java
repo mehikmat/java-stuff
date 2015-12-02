@@ -27,6 +27,7 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
     private static Date   dt;
     private static  JTable jTable;
     JScrollPane tableContainer;
+    DefaultTableModel contactTableModel;
 
     public ContactForm() {
         currentDate=new String();
@@ -189,8 +190,8 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         }
         if(obj == cmdFind) {
             getJTable();
+            resetTable(contactTableModel);
             ContactDAO.list(connection.getConnection(), jTable);
-            Clear();
             /*cmdSave.setEnabled(false);
             cmdUpdate.setEnabled(true);
             cmdDelete.setEnabled(true);*/
@@ -245,9 +246,13 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
                 }
             };
         }
-        DefaultTableModel contactTableModel = (DefaultTableModel) jTable.getModel();
+        contactTableModel = (DefaultTableModel) jTable.getModel();
         contactTableModel.setColumnIdentifiers(colName);
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return jTable;
+    }
+
+    private void resetTable(DefaultTableModel dataModel) {
+        dataModel.setRowCount(0);
     }
 }
