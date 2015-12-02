@@ -30,6 +30,8 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
     DefaultTableModel contactTableModel;
 
     public ContactForm() {
+        connection = new Connection();
+
         currentDate=new String();
         formatter = new SimpleDateFormat ("MMM - dd - yyyy",Locale.getDefault());
         dt=new Date();
@@ -177,7 +179,6 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        connection = new Connection();
 
         Object obj = e.getSource();
         if(obj == cmdClear) {
