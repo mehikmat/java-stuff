@@ -27,7 +27,11 @@ public class Connection {
 
     public Session getConnection() {
         // Connection to the cluster and keyspace "demo"
-        cluster = Cluster.builder().addContactPoint(properties.getProperty("cluster.url")).build();
+        cluster = Cluster.builder()
+                .addContactPoint(properties.getProperty("cluster.url"))
+                .withPort(Integer.parseInt(properties.getProperty("cluster.port")))
+                .withCredentials(properties.getProperty("user.name"),properties.getProperty("user.password"))
+                .build();
         return cluster.connect(properties.getProperty("keyspace.name"));
     }
 }
