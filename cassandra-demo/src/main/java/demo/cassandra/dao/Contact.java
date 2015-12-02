@@ -10,11 +10,6 @@ public class Contact {
         return contactFields;
     }
 
-    public void setContactFields(String contactFields) {
-        this.contactFields = contactFields;
-    }
-
-
     public String getContactId() {
         return contactId;
     }

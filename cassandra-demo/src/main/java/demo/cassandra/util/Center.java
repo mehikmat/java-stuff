@@ -1,24 +1,24 @@
 package demo.cassandra.util;
-import javax.swing.UIManager;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Center
 {
-      public Center(JFrame f,int x,int y)
-      { 
-         f.setSize(x,y);  
+    public Center(JFrame f,int x,int y)
+    {
+        f.setSize(x,y);
 
-         Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-         Dimension frameSize=f.getSize();
-         
-         if(frameSize.height>screenSize.height) 
-                      frameSize.height  =  screenSize.height;             
+        Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize=f.getSize();
 
-         if(frameSize.width>screenSize.width)  
-                      frameSize.width  =   screenSize.width;                
+        if(frameSize.height>screenSize.height)
+            frameSize.height  =  screenSize.height;
 
-         f.setLocation((screenSize.width-frameSize.width)/2 ,  (screenSize.height-frameSize.height)/2  );
-      }
+        if(frameSize.width>screenSize.width)
+            frameSize.width  =   screenSize.width;
+
+        f.setLocation((screenSize.width-frameSize.width)/2 ,  (screenSize.height-frameSize.height)/2  );
+    }
 }
         

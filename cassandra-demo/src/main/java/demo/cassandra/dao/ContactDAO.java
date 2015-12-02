@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Iterator;
 
 public class ContactDAO {
-    public static final ContactDAO contactDAO = new ContactDAO();
 
     public ContactDAO() {}
 
@@ -90,15 +89,4 @@ public class ContactDAO {
         session.close();
     }
 
-
-    /**
-     * @return the phoneDAO
-     */
-    public static ContactDAO getContactDAO() {
-        return contactDAO;
-    }
-
-    public void setUpTableData() {
-
-    }
 }

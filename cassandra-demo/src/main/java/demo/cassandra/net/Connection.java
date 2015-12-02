@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Connection {
-   private static Cluster cluster;
-   private static Properties properties;
-   private static final String configFileName = "cluster_config.properties";
+    private static Cluster cluster;
+    private static Properties properties;
+    private static final String configFileName = "cluster_config.properties";
 
     public Connection() {
         properties = new Properties();

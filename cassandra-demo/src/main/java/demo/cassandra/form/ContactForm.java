@@ -1,10 +1,8 @@
 package demo.cassandra.form;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import demo.cassandra.dao.Contact;
 import demo.cassandra.dao.ContactDAO;
 import demo.cassandra.net.Connection;
-import io.netty.util.internal.StringUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
