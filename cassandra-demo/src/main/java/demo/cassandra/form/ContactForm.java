@@ -16,18 +16,18 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ContactForm extends JFrame implements ActionListener,KeyListener {
-    private static JLabel       lblEmpHead,lblLine,lblPhNo,lblOwnerName,lblAmt,lblDate;
-    private static JTextField    txtPhNo,txtOwnerName,txtAmt,txtDate;
-    private static JButton     cmdSave,cmdFind,cmdUpdate,cmdClear,cmdDelete;
+    private static JLabel       lblEmpHead,lblLine, lblContactNo, lblContactName, lblContactId,lblDate;
+    private static JTextField txtContactNo, txtContactName, textContactId,txtDate;
+    private static JButton     cmdSave, cmdList,cmdUpdate,cmdClear,cmdDelete;
     private static JPanel     mainPanel,lblPanel,btnPanel;
     private static Contact contact;
     private static Connection connection;
-    private static String 			 currentDate;
+    private static String  currentDate;
     private static SimpleDateFormat formatter;
-    private static Date   dt;
+    private static Date  dt;
     private static  JTable jTable;
-    JScrollPane tableContainer;
-    DefaultTableModel contactTableModel;
+    private static JScrollPane tableContainer;
+    private static  DefaultTableModel contactTableModel;
 
     public ContactForm() {
         connection = new Connection();
@@ -51,29 +51,29 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         lblLine.setBounds(210, 23, 300, 20);
         lblLine.setForeground(Color.red);
 
-        lblAmt  =new JLabel("Contact Id :");
-        lblAmt.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        lblAmt.setBounds(25, 60, 200, 20);
-        txtAmt=new JTextField("contact id ... ");
-        txtAmt.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        txtAmt.setBounds(150, 60, 150, 20);
-        txtAmt.addKeyListener(this);
+        lblContactId =new JLabel("Contact Id :");
+        lblContactId.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        lblContactId.setBounds(25, 60, 200, 20);
+        textContactId =new JTextField("contact id ... ");
+        textContactId.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        textContactId.setBounds(150, 60, 150, 20);
+        textContactId.addKeyListener(this);
 
-        lblPhNo  =new JLabel("Contact No :");
-        lblPhNo.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        lblPhNo.setBounds(25, 120, 200, 20);
-        txtPhNo =new JTextField("contact no... ");
-        txtPhNo.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        txtPhNo.setBounds(150, 120, 150, 20);
-        txtPhNo.addKeyListener(this);
+        lblContactNo =new JLabel("Contact No :");
+        lblContactNo.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        lblContactNo.setBounds(25, 120, 200, 20);
+        txtContactNo =new JTextField("contact no... ");
+        txtContactNo.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        txtContactNo.setBounds(150, 120, 150, 20);
+        txtContactNo.addKeyListener(this);
 
-        lblOwnerName  =new JLabel("Contact Name :");
-        lblOwnerName.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        lblOwnerName.setBounds(25, 180, 200, 20);
-        txtOwnerName =new JTextField("contact name ... ");
-        txtOwnerName.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        txtOwnerName.setBounds(150, 180, 150, 20);
-        txtOwnerName.addKeyListener(this);
+        lblContactName =new JLabel("Contact Name :");
+        lblContactName.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        lblContactName.setBounds(25, 180, 200, 20);
+        txtContactName =new JTextField("contact name ... ");
+        txtContactName.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        txtContactName.setBounds(150, 180, 150, 20);
+        txtContactName.addKeyListener(this);
 
 
         jTable = getJTable();
@@ -95,12 +95,12 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
 
         lblPanel.add(lblEmpHead);
         lblPanel.add(lblLine);
-        lblPanel.add(lblAmt);
-        lblPanel.add(txtAmt);
-        lblPanel.add(lblPhNo);
-        lblPanel.add(txtPhNo) ;
-        lblPanel.add(lblOwnerName);
-        lblPanel.add(txtOwnerName) ;
+        lblPanel.add(lblContactId);
+        lblPanel.add(textContactId);
+        lblPanel.add(lblContactNo);
+        lblPanel.add(txtContactNo) ;
+        lblPanel.add(lblContactName);
+        lblPanel.add(txtContactName) ;
         lblPanel.add(lblDate);
         lblPanel.add(txtDate) ;
         lblPanel.add(tableContainer);
@@ -115,11 +115,11 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         cmdSave.setBounds(25,10,80,25);
         cmdSave.addActionListener(this);
 
-        cmdFind=new JButton("List");
-        cmdFind.setMnemonic('F');
-        cmdFind.setFont(new Font("TimesRoman",Font.BOLD,12));
-        cmdFind.setBounds(125,10,80,25);
-        cmdFind.addActionListener(this);
+        cmdList =new JButton("List");
+        cmdList.setMnemonic('F');
+        cmdList.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        cmdList.setBounds(125, 10, 80, 25);
+        cmdList.addActionListener(this);
 
         cmdUpdate=new JButton("Update");
         cmdUpdate.setMnemonic('u');
@@ -142,7 +142,7 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         btnPanel.add(cmdUpdate);
         btnPanel.add(cmdClear);
         btnPanel.add(cmdSave);
-        btnPanel.add(cmdFind);
+        btnPanel.add(cmdList);
         btnPanel.add(cmdDelete);
 
         mainPanel.add(lblPanel);
@@ -163,17 +163,17 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         Object obj = evt.getSource();
         int key = evt.getKeyCode();
         if(key == KeyEvent.VK_ENTER){
-            if(obj == txtPhNo) {
-                txtOwnerName.requestFocus();
-                BlankCheck(txtPhNo);
+            if(obj == txtContactNo) {
+                txtContactName.requestFocus();
+                BlankCheck(txtContactNo);
             }
-            if(obj == txtOwnerName){
-                txtOwnerName.requestFocus();
-                BlankCheck(txtOwnerName);
+            if(obj == txtContactName){
+                txtContactName.requestFocus();
+                BlankCheck(txtContactName);
             }
-            if(obj == txtAmt){
+            if(obj == textContactId){
                 cmdSave.requestFocus();
-                BlankCheck(txtAmt);
+                BlankCheck(textContactId);
             }
         }
     }
@@ -189,7 +189,7 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
             ContactDAO.save(connection.getConnection(), contact);
             Clear();
         }
-        if(obj == cmdFind) {
+        if(obj == cmdList) {
             getJTable();
             resetTable(contactTableModel);
             ContactDAO.list(connection.getConnection(), jTable);
@@ -199,7 +199,7 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         }
         if(obj == cmdDelete) {
             setContact();
-            BlankCheck(txtPhNo);
+            BlankCheck(txtContactNo);
             ContactDAO.delete(connection.getConnection(), contact);
             Clear();
             /*cmdSave.setEnabled(true);
@@ -208,7 +208,7 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
         }
         if(obj == cmdUpdate) {
             setContact();
-            BlankCheck(txtPhNo);
+            BlankCheck(txtContactNo);
             ContactDAO.update(connection.getConnection(), contact);
             Clear();
             /*cmdSave.setEnabled(true);
@@ -218,9 +218,9 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
     }
 
     public void  Clear() {
-        txtPhNo.setText("");
-        txtOwnerName.setText("");
-        txtAmt.setText("");
+        txtContactNo.setText("");
+        txtContactName.setText("");
+        textContactId.setText("");
     }
 
     public void BlankCheck(JTextField txt) {
@@ -233,9 +233,9 @@ public class ContactForm extends JFrame implements ActionListener,KeyListener {
     //Set Contact Information
     public void setContact() {
         contact = new Contact();
-        contact.setContactId(txtAmt.getText().trim());
-        contact.setContactNo(txtPhNo.getText().trim());
-        contact.setContactName(txtOwnerName.getText().trim());
+        contact.setContactId(textContactId.getText().trim());
+        contact.setContactNo(txtContactNo.getText().trim());
+        contact.setContactName(txtContactName.getText().trim());
     }
 
     private JTable getJTable() {
