@@ -13,10 +13,14 @@ public class CassandraDemo {
 
     //Main  Function
     public static void main(String[] args) {
-        ContactForm frmForm = new ContactForm();
-        center = new Center(frmForm,600,400);
-        frmForm.setVisible(true);
-        frmForm.setResizable(false);
-        frmForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ContactForm frmForm = new ContactForm();
+                center = new Center(frmForm,600,400);
+                frmForm.setVisible(true);
+                frmForm.setResizable(false);
+                frmForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
     }
 }
