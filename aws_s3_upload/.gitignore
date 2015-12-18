@@ -1,0 +1,5 @@
+.idea
+aws_s3_upload.iml
+*.iml*
+out
+build
