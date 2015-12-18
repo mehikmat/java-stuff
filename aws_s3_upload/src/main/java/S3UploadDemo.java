@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class S3UploadDemo {
     public static void main(String[] args) throws IOException {
-        uploadToS3("");
-        uploadToS3FromHDFS("");
+        uploadToS3("local_file_path");
+        uploadToS3FromHDFS("hdfs_folder_paht");
     }
 
     public static void uploadToS3(String localFilePath) throws IOException {
