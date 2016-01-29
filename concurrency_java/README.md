@@ -51,6 +51,10 @@ Threads pools with the Executor Framework
 
 MultiThreaded Servers
 ---------------------
+- What separates the single threaded server from a multithreaded server is that
+  the single threaded server processes the incoming requests in the same thread
+  that accepts the client connection.
+- A multithreaded server passes the connection on to a worker thread that processes the request.
 
 
 
