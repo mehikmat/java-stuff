@@ -26,6 +26,11 @@ public class SingleThreadedServer implements Runnable{
 
         openServerSocket();
         // server loop; serves a request in each iteration
+        /**
+         *   1. Wait for a client request
+         *   2. Process client request
+         *   3. Repeat from 1
+         */
         while(!isStopped()){
            openClientSocket();
             try {
@@ -35,6 +40,7 @@ public class SingleThreadedServer implements Runnable{
                 System.out.println("Error: " + e.getLocalizedMessage());
             }
         }
+        // Server loop end
         System.out.println("Server Stopped.");
     }
 
