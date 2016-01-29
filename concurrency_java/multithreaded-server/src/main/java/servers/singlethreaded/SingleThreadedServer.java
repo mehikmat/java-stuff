@@ -34,7 +34,9 @@ public class SingleThreadedServer implements Runnable{
         while(!isStopped()){
            openClientSocket();
             try {
-                processClientRequest(clientSocket);
+                if (!isStopped()){
+                    processClientRequest(clientSocket);
+                }
             } catch (IOException e) {
                 //log exception and go on to next request.
                 System.out.println("Error: " + e.getLocalizedMessage());
@@ -45,9 +47,6 @@ public class SingleThreadedServer implements Runnable{
     }
 
     private void processClientRequest(Socket clientSocket) throws IOException {
-        if (isStopped){
-            return;
-        }
         InputStream  input  = clientSocket.getInputStream();
         OutputStream output = clientSocket.getOutputStream();
         long time = System.currentTimeMillis();
