@@ -56,6 +56,14 @@ MultiThreaded Servers
   that accepts the client connection.
 - A multithreaded server passes the connection on to a worker thread that processes the request.
 
+ThreadPooled Server
+-------------------
+- Rather than starting a new thread per incoming connection, the connection is wrapped in a Runnable and
+  handed off to a thread poool with a fixed number of threads.
+- The Runnable's are kept in a queue in the thread pool. When a thread in the thread pool is idle it will
+  take a Runnable from the queue and execute it.
+- The advantages of a thread pooled server compared to a multithreaded server is that you can control
+  the maximum number of threads running at the same time. This has certain advantages.
 
 
 

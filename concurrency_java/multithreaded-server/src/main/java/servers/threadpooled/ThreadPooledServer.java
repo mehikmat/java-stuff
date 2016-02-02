@@ -1,22 +1,27 @@
-package servers.multithreaded;
+package servers.threadpooled;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
 
-public class MultiThreadedServer implements Runnable{
+public class ThreadPooledServer implements Runnable{
     protected int          serverPort   = 8080;
     protected ServerSocket serverSocket = null;
     Socket clientSocket                 = null;
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
 
-    public MultiThreadedServer(int port){
+    // thread pool
+    protected ExecutorService threadPool = Executors.newFixedThreadPool(10);
+
+    public ThreadPooledServer(int port){
         this.serverPort = port;
     }
 
@@ -36,12 +41,13 @@ public class MultiThreadedServer implements Runnable{
             openClientSocket();
 
             if (!isStopped()){
-                Thread worker =   new Thread(new WorkerRunnable(clientSocket, "Multithreaded Server"));
-                worker.start();
+                Runnable worker =   new WorkerRunnable(clientSocket, "Multithreaded Server");
+                this.threadPool.execute(worker);
             }
             System.out.println("Current Active Thread Count: " + Thread.activeCount());
         }
         // Server loop end
+        this.threadPool.shutdown();
         System.out.println("Server Stopped.");
     }
 
