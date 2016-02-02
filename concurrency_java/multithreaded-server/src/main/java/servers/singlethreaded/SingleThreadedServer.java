@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+/**
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
+ */
 public class SingleThreadedServer implements Runnable{
     protected int          serverPort   = 8080;
     protected ServerSocket serverSocket = null;

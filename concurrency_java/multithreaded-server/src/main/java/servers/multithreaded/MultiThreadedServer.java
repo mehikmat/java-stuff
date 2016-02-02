@@ -1,8 +1,27 @@
+/*
+ * *
+ *  * @author Hikmat Dhamee
+ *  * @email me.hemant.available@gmail.com
+ *
+ */
+
+/*
+ * *
+ *  * @author Hikmat Dhamee
+ *  * @email me.hemant.available@gmail.com
+ *
+ */
+
 package servers.multithreaded;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+/**
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
+ */
 
 public class MultiThreadedServer implements Runnable{
     protected int          serverPort   = 8080;

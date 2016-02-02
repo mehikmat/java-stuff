@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- * Created by hdhamee on 1/29/16.
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
  */
 public class WorkerRunnable implements Runnable {
     protected Socket clientSocket = null;
