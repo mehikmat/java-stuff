@@ -86,3 +86,19 @@ Fork-Join in Java 7
 - The fork-join framework allows you to distribute a certain task on several workers and then wait for the result.
 - To check the number of available processors in a machine use: Runtime.getRuntime().availableProcessors(), and
    later on, this number can be used to set lenght of thread pool.
+- Fork/Join addresses the need for divide-and-conquer, or recursive task-processing in Java program.
+- Fork/Join's logic is very simple:
+(1) separate (fork) each large task into smaller tasks;
+(2) process each task in a separate thread (separating those into even smaller tasks if necessary);
+(3) join the results.
+
+- Two types of task:
+(1) RecursiveTask<Type>: can return value.
+(2) RecursiveAction: cannot return value.
+
+- Need to create a ForkJoinPool and pass the task to this pool. Task need to override the computer method.
+- Compute method need to divide the task into chunks and fork them and join. Such forked chunks of task can run on separate CUP/Threads.
+
+
+Locks in Java, Semaphores
+-------------------------
