@@ -99,6 +99,4 @@ Fork-Join in Java 7
 - Need to create a ForkJoinPool and pass the task to this pool. Task need to override the computer method.
 - Compute method need to divide the task into chunks and fork them and join. Such forked chunks of task can run on separate CUP/Threads.
 
-
-Locks in Java, Semaphores
 -------------------------
