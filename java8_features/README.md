@@ -60,3 +60,5 @@ classes that are not part of the Java language). Examples of such meta-data are 
 classes and methods and they are stored in the Permanent Generation. Applications with large code-base
 can quickly fill up this segment of the heap which will cause java.lang.OutOfMemoryError:
 PermGen no matter how high your -Xmx and how much memory you have on the machine.
+
+Reference:https://www.javacodegeeks.com/2014/05/java-8-features-tutorial.html
