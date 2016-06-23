@@ -18,4 +18,13 @@ The J2EE server provides the following services:
 - HTTP: enables Web browsers to access servlets and JavaServer Pages (JSP) files.
 - EJB: allows clients to invoke methods on enterprise beans.
 
+JEE servers:
+- JBoss
+- Glassfish
+- TomEE (Tomcat is only the web container)
+
+Download TomEE-1.7.4 from: <http://repo.maven.apache.org/maven2/org/apache/openejb/apache-tomee/1.7.4/apache-tomee-1.7.4-webprofile.tar.gz> 
+
+
+
 
