@@ -48,4 +48,38 @@ RootApplication (packaged as ear)
 - Create a resource-ref XML element in web.xml as done in conf/web.xml.
 - This is necessary in order to make the JNDI DataSource available to the application under the specified namespace jdbc/UsersDB.
 
+JNDI Naming Conversion:
+- There are two categories of policies:
+  - Naming policies that specify how objects are named relative to each other and the common names to use.
+  - Directory policies, called schema, that specify the attributes that objects in the directory should have
+    and the names and syntaxes of those attributes.
+
+Portable JNDI Syntax
+---------------------
+- Three JNDI namespaces are used for portable JNDI lookups: java:global, java:module, and java:app.
+
+[1] The java:global JNDI namespace is the portable way of finding remote enterprise beans using JNDI
+    lookups.JNDI addresses are of the following form:
+    - java:global[/application name]/module name/enterprise bean name[/interface name]
+    - Application name and module name default to the name of the application and module minus the
+      file extension. Application names are required only if the application is packaged within an EAR.
+      The interface name is required only if the enterprise bean implements more than one business interface.
+
+[2] The java:module namespace is used to look up local enterprise beans within the same module.
+    JNDI addresses using the java:module namespace are of the following form:
+   - java:module/enterprise bean name/[interface name]
+     The interface name is required only if the enterprise bean implements more than one business interface.
+   - The java:app namespace is used to look up local enterprise beans packaged within the same
+     application. That is, the enterprise bean is packaged within an EAR file containing multiple
+     Java EE modules.
+
+[3]JNDI addresses using the java:app namespace are of the following form:
+   - java:app[/module name]/enterprise bean name[/interface name]
+     The module name is optional. The interface name is required only if the enterprise bean
+     implements more than one business interface.
+
+
+For example, if an enterprise bean, MyBean, is packaged within the web application archive myApp.war,
+the module name is myApp. The portable JNDI name is java:module/MyBean An equivalent JNDI name using
+the java:global namespace is java:global/myApp/MyBean.
 

@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <description>Web Layer module </description>
+
     <parent>
         <groupId>jeedemo</groupId>
         <artifactId>jeedemo</artifactId>
