@@ -83,3 +83,5 @@ For example, if an enterprise bean, MyBean, is packaged within the web applicati
 the module name is myApp. The portable JNDI name is java:module/MyBean An equivalent JNDI name using
 the java:global namespace is java:global/myApp/MyBean.
 
+
+Ref: http://www.tutorialspoint.com/ejb/
