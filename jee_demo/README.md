@@ -83,5 +83,13 @@ For example, if an enterprise bean, MyBean, is packaged within the web applicati
 the module name is myApp. The portable JNDI name is java:module/MyBean An equivalent JNDI name using
 the java:global namespace is java:global/myApp/MyBean.
 
+When use Enterprise Java Bean?
+------------------------------
+- Application needs Remote Access. In other words, it is distributed.
+- Application needs to be scalable. EJB applications supports load balancing, clustering and fail-over.
+- Application needs encapsulated business logic. EJB application is separated from presentation and persistent layer.
 
-Ref: http://www.tutorialspoint.com/ejb/
+--------------------------------------
+- EJB is an essential part of a J2EE platform.
+- J2EE platform have component based architecture to provide multi-tiered, distributed and highly transactional features to enterprise level applications.
+- EJB are primarily of three types: Session Bean,Message-Driven Bean,Entity Bean.
