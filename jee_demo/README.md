@@ -93,3 +93,10 @@ When use Enterprise Java Bean?
 - EJB is an essential part of a J2EE platform.
 - J2EE platform have component based architecture to provide multi-tiered, distributed and highly transactional features to enterprise level applications.
 - EJB are primarily of three types: Session Bean,Message-Driven Bean,Entity Bean.
+- Servlet-EJB communications use JNDI for lookup and RMI for the EJB calls, over either ORMI (the Oracle implementation of RMI)
+  or IIOP (the standard and interoperable Internet Inter-Orb Protocol).
+
+The servlet-EJB can have three scenarios:
+- Local lookup: The servlet calls an EJB that is co-located, meaning it is in the same application and on the same host, running in the same JVM. The servlet and EJB would have been deployed in the same EAR file, or in EAR files with a parent/child relationship. The example uses EJB local interfaces, which were introduced in the EJB 2.0 specification. See "EJB Local Lookup".
+- Remote lookup: within the same application: The servlet calls an EJB that is in the same application but on a different host. (The same application is deployed to both hosts.) This requires EJB remote interfaces. This would be the case for a multitier application where the servlet and EJB are in the same application but on different tiers. See "EJB Remote Lookup within the Same Application".
+- Remote lookup: outside the application: The servlet calls an EJB that is not in the same application. This is a remote lookup and requires EJB remote interfaces. The EJB might be on the same host or on a different host, but is not running in the same JVM. See "EJB Remote Lookup Outside the Application".
