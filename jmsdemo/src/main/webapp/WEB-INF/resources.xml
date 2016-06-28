@@ -1,0 +1,34 @@
+<!--
+ This creates an ActiveMQ Broker that runs inside TomEE and is bound to the address someHostName:61616.
+ This broker will start when TomEE starts and shutdown when TomEE shuts down. All JMS communication happening
+  inside TomEE itself will happen using the embedded ActiveMQ Broker over the ActiveMQ "vm"
+ transport which is optimized for sending and receiving messages when in the same JVM as the Broker.
+ -->
+<!--<tomee>
+    <Resource id="bar" type="javax.jms.Queue" />
+
+    <Resource id="MyJmsResourceAdapter" type="ActiveMQResourceAdapter">
+        BrokerXmlConfig = broker:(tcp://localhost:61616)
+        ServerUrl =  vm://localhost
+    </Resource>
+
+    <Resource id="MyJmsConnectionFactory" type="javax.jms.ConnectionFactory">
+        ResourceAdapter = MyJmsResourceAdapter
+    </Resource>
+</tomee>-->
+
+<!--
+Connecting to an External Broker
+It is possible to connect to an ActiveMQ Broker running externally. The setup is similar to the above with only two changes.
+<tomee>
+    <Resource id="MyJmsResourceAdapter" type="ActiveMQResourceAdapter">
+        BrokerXmlConfig =
+        ServerUrl       =  tcp://someHostName:61616
+    </Resource>
+
+    <Resource id="MyJmsConnectionFactory" type="javax.jms.ConnectionFactory">
+        ResourceAdapter = MyJmsResourceAdapter
+    </Resource>
+</tomee>
+-->
+<Resource id="bar" type="javax.jms.Queue" />
