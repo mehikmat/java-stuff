@@ -10,10 +10,10 @@ import java.io.IOException;
  * @author Hikmat Dhamee
  * @email hikmatdhamee@gmail.com
  */
-public class WatUrlExtractorReducer extends Reducer<Text,NullWritable,Text,NullWritable> {
+public class WatUrlExtractorReducer extends Reducer<Text, NullWritable, Text, NullWritable> {
 
     @Override
     protected void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException {
-        context.write(key,NullWritable.get());
+        context.write(key, NullWritable.get());
     }
 }

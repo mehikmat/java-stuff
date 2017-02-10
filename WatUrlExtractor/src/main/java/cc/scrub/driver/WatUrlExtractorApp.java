@@ -20,48 +20,47 @@ import org.apache.log4j.Logger;
  * @email hikmatdhamee@gmail.com
  */
 public class WatUrlExtractorApp {
-	private static final Logger LOG = Logger.getLogger(WatUrlExtractorApp.class);
+    private static final Logger LOG = Logger.getLogger(WatUrlExtractorApp.class);
 
-	public static void main(String[] args) throws Exception {
-		Configuration conf = new Configuration();
+    public static void main(String[] args) throws Exception {
+        Configuration conf = new Configuration();
 
-		Job job = Job.getInstance(conf);
-		job.setJarByClass(WatUrlExtractorApp.class);
+        Job job = Job.getInstance(conf);
+        job.setJarByClass(WatUrlExtractorApp.class);
 
-		//inputPath = s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz
-		String inputPath = args[0];
-		String outputPath = args[1];
+        //inputPath = s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz
+        String inputPath = args[0];
+        String outputPath = args[1];
 
-		LOG.info("Input path: " + inputPath);
-		LOG.info("Output path: " + outputPath);
+        LOG.info("Input path: " + inputPath);
+        LOG.info("Output path: " + outputPath);
 
-		FileInputFormat.addInputPath(job, new Path(inputPath));
+        FileInputFormat.addInputPath(job, new Path(inputPath));
 
-		FileSystem fs = FileSystem.newInstance(conf);
-		if (fs.exists(new Path(outputPath))) {
-			fs.delete(new Path(outputPath), true);
-		}
+        FileSystem fs = FileSystem.newInstance(conf);
+        if (fs.exists(new Path(outputPath))) {
+            fs.delete(new Path(outputPath), true);
+        }
 
-		FileOutputFormat.setOutputPath(job, new Path(outputPath));
+        FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-		job.setInputFormatClass(WARCFileInputFormat.class);
-		job.setOutputFormatClass(TextOutputFormat.class);
+        job.setInputFormatClass(WARCFileInputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
 
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(NullWritable.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(NullWritable.class);
 
-		job.setMapperClass(WatUrlExtractorMapper.class);
-		job.setReducerClass(WatUrlExtractorReducer.class);
+        job.setMapperClass(WatUrlExtractorMapper.class);
+        job.setReducerClass(WatUrlExtractorReducer.class);
 
-		job.setSpeculativeExecution(false);
+        job.setSpeculativeExecution(false);
 
-		job.waitForCompletion(true);
+        job.waitForCompletion(true);
 
-		// merge all output parts to single file
-		if (fs.exists(new Path(outputPath + "_merged"))) {
-			fs.delete(new Path(outputPath + "_merged"), true);
-		}
-		FileUtil.copyMerge(fs, new Path(outputPath),fs,new Path(outputPath+"_merged"),true,conf,null);
-
-	}
+        // merge all output parts to single file
+        if (fs.exists(new Path(outputPath + "_merged"))) {
+            fs.delete(new Path(outputPath + "_merged"), true);
+        }
+        FileUtil.copyMerge(fs, new Path(outputPath), fs, new Path(outputPath + "_merged"), true, conf, null);
+    }
 }
