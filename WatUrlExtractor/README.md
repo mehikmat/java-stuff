@@ -4,6 +4,9 @@ Common Crawls File Types
 
 1. WARC (Web Archive Commons) File:
    Files which store the raw crawl data.
+   Not only does the format store the HTTP response from the websites it contacts (WARC-Type: response),
+   it also stores information about how that information was requested (WARC-Type: request)
+   and metadata on the crawl process itself (WARC-Type: metadata).
 
 2. WAT(WARC Meta Data) File:
    Files which store computed metadata for the data stored in the WARC.
