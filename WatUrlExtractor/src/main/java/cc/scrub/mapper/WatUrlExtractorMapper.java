@@ -20,7 +20,7 @@ import java.net.URI;
  */
 public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, NullWritable> {
     private static final Logger LOG = Logger.getLogger(WatUrlExtractorMapper.class);
-    private static final String RGX_URL = "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.][a-z0-9]+)*\\.(com|org|net)(:[0-9]{1,5})?(\\/.*)?$";
+    private static final String RGX_URL = "^(http[s]?:\\/\\/)?(www[.])?[a-z0-9]+([\\-][a-z0-9]+)?([.][a-z0-9]+)*(\\.com|\\.net|\\.org)([.][a-z]{1,3})?((?=\\/).*)?$";
 
     private Text outKey = new Text();
     private NullWritable outVal = NullWritable.get();
@@ -43,9 +43,8 @@ public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, Nul
                     //JSON xpath = [Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links']
                     String inPageLinks = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("Links").toString();
 
-                    if (inPageLinks.contains("/contact") && siteUrl.matches(RGX_URL)) {
-                        URI uri = new URI(siteUrl);
-                        outKey.set(uri.getHost()); // extract root url
+                    if (inPageLinks.contains("contact") && siteUrl.matches(RGX_URL)) {
+                        outKey.set(new URI(siteUrl).getHost()); // extract root url
                         context.write(outKey, outVal);
                     }
                 } catch (JSONException ex) {
