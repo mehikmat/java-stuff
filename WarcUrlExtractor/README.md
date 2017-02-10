@@ -49,7 +49,7 @@ Run jar
 --------
 ```
 $> git clone https://github.com/mehikmat/java-stuffs
-$> cd java-stuffs/WatUrlExtractor
+$> cd java-stuffs/WarcUrlExtractor
 $> mvn clean package
 
 $> hadoop jar target/CCUrlExtractor-1.0.jar -input cc_input/*.warc.gz  -output cc_output
