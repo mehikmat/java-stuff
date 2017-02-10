@@ -1,8 +1,10 @@
 package cc.scrub.driver;
 
+import cc.scrub.cli.CmdOptions;
 import cc.scrub.mapper.WatUrlExtractorMapper;
 import cc.scrub.reducer.WatUrlExtractorReducer;
 import cc.scrub.thirdparty.warc.io.WARCFileInputFormat;
+import org.apache.commons.cli.CommandLine;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
@@ -23,15 +25,27 @@ public class WatUrlExtractorApp {
     private static final Logger LOG = Logger.getLogger(WatUrlExtractorApp.class);
 
     public static void main(String[] args) throws Exception {
+        String inputPath = null;
+        String outputPath = null;
+
+        CmdOptions options = CmdOptions.createOptions();
+        CommandLine commandLine = options.parse(args);
+
+        if (commandLine != null) {
+            if (commandLine.hasOption(options.inputPath.getOpt())) {
+                inputPath = commandLine.getOptionValue(options.inputPath.getOpt());
+                outputPath = commandLine.getOptionValue(options.outputPath.getOpt());
+            } else {
+                options.printHelp();
+            }
+        }
+
         Configuration conf = new Configuration();
 
         Job job = Job.getInstance(conf);
         job.setJarByClass(WatUrlExtractorApp.class);
 
         //inputPath = s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz
-        String inputPath = args[0];
-        String outputPath = args[1];
-
         LOG.info("Input path: " + inputPath);
         LOG.info("Output path: " + outputPath);
 
