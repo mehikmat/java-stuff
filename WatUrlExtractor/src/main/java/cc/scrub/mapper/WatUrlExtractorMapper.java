@@ -22,7 +22,7 @@ import java.net.URI;
 public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, NullWritable> {
     private static final Logger LOG = Logger.getLogger(WatUrlExtractorMapper.class);
 
-    private static final String RGX_URL = "^(http[s]?:\\/\\/)?(www[.])?[a-z0-9]+([\\-][a-z0-9]+)?([.][a-z0-9]+)*(\\.com|\\.net|\\.org)([.][a-z]{1,3})?((?=\\/).*)?$";
+    private static final String RGX_URL = "^(http[s]?:\\/\\/)?(www[.])?[a-z0-9]+([\\-][a-z0-9]+)?(\\.com|\\.net|\\.org)([.][a-z]{1,3})?((?=\\/).*)?$";
     private static final String SEARCH_WORD = "contact";
     private static final String SEARCH_ATTRIBUTE = "url";
 

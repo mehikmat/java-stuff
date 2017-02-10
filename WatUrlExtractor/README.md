@@ -18,6 +18,8 @@ Using the Common Crawl latest public datasets deliver to me a list of root URLs 
 hierarchy has a URL containing the word “contact”. Also these websites must be of .org, .com or .net domain extentions
 and the root URL must not contain more than one non-alphanumeric character (for example, don’t include results like “www.my--site.com”).
 
+Amend: Don't include any sub domains
+
 Input File selection for Solution:
 ----------------------------------
 So we can achieve required output using WAT files which are small in comparison to WARC files.
