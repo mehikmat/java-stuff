@@ -53,6 +53,13 @@ $> cd java-stuffs/WarcUrlExtractor
 $> mvn clean package
 
 $> hadoop jar target/CCUrlExtractor-1.0.jar -input cc_input/*.warc.gz  -output cc_output
+
+OR
+
+For large processing
+
+$> $> hadoop jar target/CCUrlExtractor-1.0.jar -input s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/warc/*.warc.gz  -output cc_output
+
 ```
 So job will take all the .warc files in cc_input directory.
 
