@@ -21,8 +21,8 @@ import java.util.regex.Pattern;
  * @author Hikmat Dhamee
  * @email hikmatdhamee@gmail.com
  */
-public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, NullWritable> {
-    private static final Logger LOG = Logger.getLogger(WatUrlExtractorMapper.class);
+public class WarcUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, NullWritable> {
+    private static final Logger LOG = Logger.getLogger(WarcUrlExtractorMapper.class);
 
     private static final String RGX_URL = "^(http[s]?:\\/\\/)?(www[.])?[a-z0-9]+([\\-][a-z0-9]+)?(\\.com|\\.net|\\.org)([.][a-z]{1,3})?((?=\\/).*)?$";
     private static final String SEARCH_WORD = "contact";
