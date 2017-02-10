@@ -60,11 +60,17 @@ For large processing
 
 $> $> hadoop jar target/CCUrlExtractor-1.0.jar -input s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/warc/*.warc.gz  -output cc_output
 
+There are almost 512 files in ../warc dir in s3 each of ~1GB
+
 ```
 So job will take all the .warc files in cc_input directory.
 
 We can limit number files using path filter and also can take directly from s3 too.
 
 See output at cc_output_merged file.
+
+I used only one file for testing but with lareger cluster we can process all.
+
+512*1GB ~512GB
 
 
