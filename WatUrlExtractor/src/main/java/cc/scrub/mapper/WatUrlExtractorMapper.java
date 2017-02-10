@@ -7,12 +7,14 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Logger;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.regex.Pattern;
 
 
 /**
@@ -28,49 +30,46 @@ public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, Nul
 
     private Text outKey = new Text();
     private NullWritable outVal = NullWritable.get();
+    private Pattern URL_PATTERN = null;
 
     @Override
-    public void map(Text key, ArchiveReader value, Context context) throws IOException {
+    public void map(Text key, ArchiveReader archiveRecords, Context context) throws IOException {
+        // compile once for each file and use for all records
+        URL_PATTERN = Pattern.compile(RGX_URL);
 
-        for (ArchiveRecord record : value) {
-            // Skip any records that are not JSON
-            if (!record.getHeader().getMimetype().equals("application/json")) {
-                continue;
-            }
+        for (ArchiveRecord record : archiveRecords) {
             try {
-                // Convenience function that reads the full message into a raw byte array
-                byte[] rawData = IOUtils.toByteArray(record, record.available());
-                String content = new String(rawData);
+                String siteUrl = record.getHeader().getUrl();
 
-                JSONObject json = new JSONObject(content);
+                // We're only interested in processing the responses, not requests or metadata
+                if (record.getHeader().getMimetype().equals("application/http; msgtype=response") && URL_PATTERN.matcher(siteUrl).find()) {
+                    // Convenience function that reads the full message into a raw byte array
+                    byte[] rawData = IOUtils.toByteArray(record, record.available());
+                    String content = new String(rawData);
 
-                try {
-                    String siteUrl = json.getJSONObject("Envelope").getJSONObject("WARC-Header-Metadata").getString("WARC-Target-URI");
-                    //JSON xpath = [Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links']
-                    JSONArray linksJsonArray = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata")
-                            .getJSONObject("HTML-Metadata").getJSONArray("Links");
+                    // The HTTP header gives us valuable information about what was received during the request
+                    String headerText = content.substring(0, content.indexOf("\r\n\r\n"));
 
-                    if (siteUrl.matches(RGX_URL) && searchWord(linksJsonArray,SEARCH_ATTRIBUTE,SEARCH_WORD)) {
-                        outKey.set(new URI(siteUrl).getHost()); // extract root url
-                        context.write(outKey, outVal);
+                    // In our task, we're only interested in text/html, so we can be a little lax
+                    if (headerText.contains("Content-Type: text/html")) {
+                        // Only extract the body of the HTTP response when necessary
+                        String body = content.substring(content.indexOf("\r\n\r\n") + 4);
+
+                        Document doc = Jsoup.parseBodyFragment(body);
+                        Elements links = doc.select("a[href]");
+                        for (Element link : links) {
+                            // Process all the matched HTML tags found in the body of the document
+                            if (link.attr("abs:href").contains(SEARCH_WORD)) {
+                                outKey.set(new URI(siteUrl).getHost()); // extract root url
+                                context.write(outKey, outVal);
+                                break;
+                            }
+                        }
                     }
-                } catch (JSONException ex) {
-                    LOG.error(ex.getLocalizedMessage());
                 }
-            } catch (Exception ex) {
+            }catch (Exception ex) {
                 LOG.error("Caught Exception", ex);
             }
         }
-    }
-
-    private boolean searchWord(JSONArray searchSpaceArray,String attribute,String searchWord)throws JSONException {
-        boolean found = false;
-        for (int i = 0; i < searchSpaceArray.length(); i++) {
-            if(((JSONObject)(searchSpaceArray.get(i))).getString(attribute).contains(searchWord)){
-                found = true;
-                break;
-            }
-        }
-        return found;
     }
 }
