@@ -7,7 +7,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -30,12 +29,14 @@ public class WatUrlExtractorApp {
 		job.setJarByClass(WatUrlExtractorApp.class);
 
 		//inputPath = s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz
-		String inputPath = "cc_input/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz";
+		String inputPath = args[0];
+		String outputPath = args[1];
 
 		LOG.info("Input path: " + inputPath);
+		LOG.info("Output path: " + outputPath);
+
 		FileInputFormat.addInputPath(job, new Path(inputPath));
 
-		String outputPath = "cc_output";
 		FileSystem fs = FileSystem.newInstance(conf);
 		if (fs.exists(new Path(outputPath))) {
 			fs.delete(new Path(outputPath), true);
