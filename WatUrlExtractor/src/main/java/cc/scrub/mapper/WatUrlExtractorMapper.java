@@ -26,7 +26,6 @@ public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, Nul
 
     private static final String RGX_URL = "^(http[s]?:\\/\\/)?(www[.])?[a-z0-9]+([\\-][a-z0-9]+)?(\\.com|\\.net|\\.org)([.][a-z]{1,3})?((?=\\/).*)?$";
     private static final String SEARCH_WORD = "contact";
-    private static final String SEARCH_ATTRIBUTE = "url";
 
     private Text outKey = new Text();
     private NullWritable outVal = NullWritable.get();
@@ -41,27 +40,29 @@ public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, Nul
             try {
                 String siteUrl = record.getHeader().getUrl();
 
-                // We're only interested in processing the responses, not requests or metadata
+                // check record type if it's response, and not request or metadata and target url matches our criteria
                 if (record.getHeader().getMimetype().equals("application/http; msgtype=response") && URL_PATTERN.matcher(siteUrl).find()) {
-                    // Convenience function that reads the full message into a raw byte array
+
+                    // convert to raw bytes
                     byte[] rawData = IOUtils.toByteArray(record, record.available());
                     String content = new String(rawData);
 
-                    // The HTTP header gives us valuable information about what was received during the request
+                    // Extract the HTTP header
                     String headerText = content.substring(0, content.indexOf("\r\n\r\n"));
 
-                    // In our task, we're only interested in text/html, so we can be a little lax
+                    // Extract the page body as we check for at least one link having word `contact`
                     if (headerText.contains("Content-Type: text/html")) {
-                        // Only extract the body of the HTTP response when necessary
                         String body = content.substring(content.indexOf("\r\n\r\n") + 4);
 
+                        // parse using jsoup
                         Document doc = Jsoup.parseBodyFragment(body);
                         Elements links = doc.select("a[href]");
+
                         for (Element link : links) {
-                            // Process all the matched HTML tags found in the body of the document
                             if (link.attr("abs:href").contains(SEARCH_WORD)) {
                                 outKey.set(new URI(siteUrl).getHost()); // extract root url
                                 context.write(outKey, outVal);
+                                // once we find the link having word 'contact' break and output record's site url
                                 break;
                             }
                         }
