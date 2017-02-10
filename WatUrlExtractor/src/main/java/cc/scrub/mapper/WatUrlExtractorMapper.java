@@ -39,16 +39,14 @@ public class WatUrlExtractorMapper extends Mapper<Text, ArchiveReader, Text, Nul
 				String content = new String(rawData);
 				JSONObject json = new JSONObject(content);
 				try {
-					//JSON xpath= [Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links']
 					String siteUrl = json.getJSONObject("Envelope").getJSONObject("WARC-Header-Metadata").getString("WARC-Target-URI");
+					//JSON xpath = [Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links']
 					String inPageLinks = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("Links").toString();
 
-					System.out.println("before");
 					if(inPageLinks.contains("/contact") && siteUrl.matches(RGX_URL)){
 						URI uri = new URI(siteUrl);
 						outKey.set(uri.getHost()); // extract root url
 						context.write(outKey, outVal);
-						System.out.println("after:" + outKey.toString());
 					}
 				} catch (JSONException ex) {
 					LOG.error(ex.getLocalizedMessage());
