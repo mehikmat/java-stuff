@@ -20,30 +20,36 @@ and the root URL must not contain more than one non-alphanumeric character (for 
 
 Input File selection for Solution:
 ----------------------------------
-So we can achieve required output using WAT files which is small in comparison to WARC files.
+So we can achieve required output using WAT files which are small in comparison to WARC files.
 
 
-Download latest WAT file from s3
---------------------------------
-$> aws s3 cp s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz /data/
+Logic Testing:
+--------------
+
+- Download latest WAT file from s3
+
+`$> aws s3 cp s3://commoncrawl/crawl-data/CC-MAIN-2016-50/segments/1480698544679.86/wat/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz /data/`
 
 Here I am using only one file for local processing in single node hadoop cluster.
 But we can use all files and process in large hadoo cluster.
 
 Reference taken from https://github.com/rossf7/wikireverse for WARC File InputFormat.
 
+```
 $> hadoop fs -mkdir -p cc_input
 $> hadoop fs -put /data/CC-MAIN-20161202170904-00461-ip-10-31-129-80.ec2.internal.warc.wat.gz cc_input/
+```
 
 Run jar
 --------
-
+```
 $> git clone https://github.com/mehikmat/java-stuffs
 $> cd java-stuffs/WatUrlExtractor
 $> mvn clean package
 
 $> hadoop jar target/CCUrlExtractor-1.0.jar
+```
 
-see output at cc_output_merged file.
+See output at cc_output_merged file.
 
 
